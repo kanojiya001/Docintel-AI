@@ -1,0 +1,71 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# ── Virtual environments ───────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env.local
+docintel-backend/venv/
+
+# ── Environment / Secrets (NEVER commit these) ────────────────────────────────
+.env
+*.env
+.env.*
+!.env.example
+
+# ── Uploads & Vector Store (user data, can be large) ─────────────────────────
+docintel-backend/uploads/
+docintel-backend/vector_store/
+docintel-backend/exports/
+
+# ── Database ───────────────────────────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+*.out
+
+# ── OS files ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ── IDE / Editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+.kiro/
+
+# ── Node (if any frontend tooling added later) ────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ── Test / temp files ─────────────────────────────────────────────────────────
+docintel-backend/setup_db.py
+docintel-backend/test_*.py
+*.tmp
+*.bak
+*.orig
+
+# ── Celery ────────────────────────────────────────────────────────────────────
+celerybeat-schedule
+celerybeat.pid

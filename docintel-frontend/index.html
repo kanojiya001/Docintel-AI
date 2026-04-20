@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI | Enterprise Document Intelligence</title>
+  <meta name="description" content="Unlock deep document insights with advanced RAG capabilities, AI-driven summarization, and real-time semantic search."/>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    .hero-gradient {
+      background: radial-gradient(circle at 50% 40%, rgba(231,213,165,0.18) 0%, transparent 70%);
+    }
+    .hero-dots {
+      background-image: radial-gradient(circle, rgba(85,53,32,0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .feature-glow::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, rgba(231,213,165,0.3), transparent 60%);
+      border-radius: inherit;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .feature-glow:hover::before { opacity: 1; }
+    .hero-img-wrapper {
+      position: relative;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hero-img-wrapper:hover { transform: scale(1.02); }
+    .hero-img-blur {
+      position: absolute;
+      inset: -1rem;
+      background: rgba(231,213,165,0.2);
+      border-radius: 2rem;
+      filter: blur(30px);
+      transition: all 0.5s ease;
+    }
+    .hero-img-wrapper:hover .hero-img-blur { background: rgba(231,213,165,0.35); }
+    .step-number {
+      width: 4rem; height: 4rem;
+      background: var(--primary);
+      color: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900;
+      box-shadow: 0 8px 24px rgba(85,53,32,0.2);
+      transition: transform 0.3s ease;
+    }
+    .step-number:hover { transform: scale(1.15) rotate(-5deg); }
+    .cta-dot-pattern {
+      background-image: radial-gradient(circle, rgba(231,213,165,0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .footer-link { transition: color 0.2s ease; }
+    .footer-link:hover { color: var(--primary); }
+    .brand-scroll { animation: scrollBrands 20s linear infinite; }
+    @keyframes scrollBrands {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 2px; background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      background: rgba(231,213,165,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="glass" style="position:fixed;top:0;width:100%;z-index:50;">
+  <div class="container flex items-center justify-between" style="height:5rem;">
+    <div class="flex items-center gap-3">
+      <img src="images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;object-fit:contain;"/>
+      <h1 style="font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;">DocIntel AI</h1>
+    </div>
+    <div class="flex items-center gap-8" style="display:none;" id="nav-links">
+      <a class="nav-link" href="#features" style="font-size:0.875rem;font-weight:600;opacity:0.8;">Solutions</a>
+      <a class="nav-link" href="#process" style="font-size:0.875rem;font-weight:600;opacity:0.8;">Capabilities</a>
+      <a class="nav-link" href="#" style="font-size:0.875rem;font-weight:600;opacity:0.8;">Enterprise</a>
+      <a class="nav-link" href="#" style="font-size:0.875rem;font-weight:600;opacity:0.8;">Pricing</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="pages/login.html" class="btn btn-secondary" style="font-size:0.875rem;">Login</a>
+      <a href="pages/register.html" class="btn btn-primary btn-ripple" style="font-size:0.875rem;">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<main style="padding-top:5rem;">
+
+  <!-- Hero Section -->
+  <section class="hero-gradient relative overflow-hidden" style="padding:5rem 0 7rem;">
+    <div class="hero-dots" style="position:absolute;inset:0;z-index:0;"></div>
+    <!-- Floating particles -->
+    <div class="particle anim-float" style="top:15%;left:10%;animation-delay:0s;"></div>
+    <div class="particle anim-float" style="top:35%;left:85%;animation-delay:0.5s;"></div>
+    <div class="particle anim-float" style="top:60%;left:25%;animation-delay:1s;width:8px;height:8px;"></div>
+    <div class="particle anim-float" style="top:75%;left:70%;animation-delay:1.5s;"></div>
+    <div class="container" style="position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div class="flex flex-col gap-8">
+        <div class="anim-fade-up delay-1" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(231,213,165,0.3);padding:0.25rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;width:fit-content;">
+          <span class="material-symbols-outlined" style="font-size:0.875rem;">verified</span>
+          Next-Gen RAG Architecture
+        </div>
+        <h1 class="anim-fade-up delay-2" style="font-size:3.5rem;font-weight:800;line-height:1.1;letter-spacing:-0.03em;">
+          Enterprise Document Intelligence, <span style="opacity:0.55;">Redefined.</span>
+        </h1>
+        <p class="anim-fade-up delay-3" style="font-size:1.125rem;opacity:0.75;line-height:1.7;max-width:540px;">
+          Unlock deep document insights with advanced RAG capabilities, AI-driven summarization, and real-time semantic search built for high-stakes enterprise decision making.
+        </p>
+        <div class="anim-fade-up delay-4 flex gap-4" style="margin-top:0.5rem;">
+          <a href="pages/register.html" class="btn btn-primary btn-lg btn-ripple" style="box-shadow:0 8px 30px rgba(85,53,32,0.15);">
+            Request Demo
+          </a>
+          <a href="#features" class="btn btn-secondary btn-lg">
+            Explore Features
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+      <div class="anim-scale-in delay-3 hero-img-wrapper">
+        <div class="hero-img-blur"></div>
+        <div style="position:relative;background:var(--white);padding:1rem;border-radius:2rem;box-shadow:var(--shadow-xl);border:1px solid var(--neutral-soft);">
+          <div style="background:var(--bg-light);border-radius:1.25rem;overflow:hidden;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFHvzDkXifviKO-4XbY09bpbpWwrN930qg_RyU47S40pk48m6U69pMr7UkPETTMQTscEextWGFcguT92X7DY3-5DJYECYzZmOqUeOkFcISwyjLrouDHrZco8N69EfWEY_Frtqi0qA6KXHau2edM1M9I6b9II74_tidfKRa6_SjMLkp6GRzVkY6C_Wu11np5dTASvN2U1ButEAEG2gWmWuMYR0L7HVHUtl7Lg9nCc4f6MGulVXMSL51tFAXFmmH-0_PbHSg9GqYffg" alt="AI Document Analysis Visualization" style="width:100%;height:100%;object-fit:cover;opacity:0.85;mix-blend-mode:multiply;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section style="padding:3rem 0;border-top:1px solid var(--neutral-soft);border-bottom:1px solid var(--neutral-soft);background:rgba(255,255,255,0.5);overflow:hidden;">
+    <div style="display:flex;white-space:nowrap;" class="brand-scroll">
+      <div class="flex items-center gap-8" style="padding:0 3rem;opacity:0.4;">
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">TECHCORP</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">GLOBALFIN</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">NEXUS_SYS</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">QUANTUM_LIT</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">ORBITAL</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">CIRCUITRY</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">NOVA_AI</span>
+      </div>
+      <div class="flex items-center gap-8" style="padding:0 3rem;opacity:0.4;">
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">TECHCORP</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">GLOBALFIN</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">NEXUS_SYS</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">QUANTUM_LIT</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">ORBITAL</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">CIRCUITRY</span>
+        <span style="font-size:1.5rem;font-weight:900;font-style:italic;">NOVA_AI</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" style="padding:6rem 0;background:var(--bg-light);">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:4rem;">
+        <span style="display:inline-block;background:var(--primary);color:var(--accent);padding:0.25rem 1rem;border-radius:var(--radius-md);font-size:0.8125rem;font-weight:700;">CORE CAPABILITIES</span>
+        <h2 style="font-size:2.75rem;font-weight:800;letter-spacing:-0.02em;margin-top:1rem;">Intelligence that scales with your complexity.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;">
+        <!-- Feature 1 -->
+        <div class="card tilt-card feature-glow reveal" style="padding:2.5rem;border-radius:2rem;position:relative;">
+          <div class="stat-icon" style="margin-bottom:2rem;">
+            <span class="material-symbols-outlined" style="font-size:1.75rem;">query_stats</span>
+          </div>
+          <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">Deep Document Insights</h3>
+          <p style="opacity:0.65;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">Navigate through vast knowledge bases with precision. Our state-of-the-art semantic search engines find meaning, not just keywords, across all enterprise assets.</p>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;">
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              RAG-enhanced context retrieval
+            </li>
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Vector-based semantic mapping
+            </li>
+          </ul>
+        </div>
+        <!-- Feature 2 -->
+        <div class="card tilt-card feature-glow reveal" style="padding:2.5rem;border-radius:2rem;position:relative;transition-delay:0.1s;">
+          <div class="stat-icon" style="margin-bottom:2rem;">
+            <span class="material-symbols-outlined" style="font-size:1.75rem;">auto_stories</span>
+          </div>
+          <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">Intelligent Summarization</h3>
+          <p style="opacity:0.65;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">Transform complex, multi-hundred page reports into actionable executive briefs. Tailor summaries for specific audiences—from technical teams to board members.</p>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;">
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Executive &amp; Exam summary modes
+            </li>
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Key stakeholder perspective focus
+            </li>
+          </ul>
+        </div>
+        <!-- Feature 3 -->
+        <div class="card tilt-card feature-glow reveal" style="padding:2.5rem;border-radius:2rem;position:relative;transition-delay:0.2s;">
+          <div class="stat-icon" style="margin-bottom:2rem;">
+            <span class="material-symbols-outlined" style="font-size:1.75rem;">compare_arrows</span>
+          </div>
+          <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">Comparative Analysis</h3>
+          <p style="opacity:0.65;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">Upload multiple document versions and let AI highlight technical differences, legal variations, or financial discrepancies side-by-side.</p>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;">
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Visual diff-tracking for clauses
+            </li>
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Structural drift identification
+            </li>
+          </ul>
+        </div>
+        <!-- Feature 4 -->
+        <div class="card tilt-card feature-glow reveal" style="padding:2.5rem;border-radius:2rem;position:relative;transition-delay:0.3s;">
+          <div class="stat-icon" style="margin-bottom:2rem;">
+            <span class="material-symbols-outlined" style="font-size:1.75rem;">quiz</span>
+          </div>
+          <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">Automated Assessments</h3>
+          <p style="opacity:0.65;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">Instantly generate high-quality exam questions, validation tests, and knowledge checks directly from your training manuals and documentation.</p>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;">
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Bloom's Taxonomy-aligned queries
+            </li>
+            <li class="flex items-center gap-3" style="font-size:0.875rem;font-weight:600;opacity:0.75;">
+              <span class="material-symbols-outlined" style="color:var(--accent);font-size:1.125rem;">check_circle</span>
+              Automated grading &amp; feedback loops
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="process" style="padding:6rem 0;overflow:hidden;">
+    <div class="container">
+      <div class="text-center reveal" style="max-width:640px;margin:0 auto 5rem;">
+        <span style="display:inline-block;background:var(--primary);color:var(--accent);padding:0.25rem 1rem;border-radius:var(--radius-md);font-size:0.8125rem;font-weight:700;">PROCESS</span>
+        <h2 style="font-size:2.75rem;font-weight:800;letter-spacing:-0.02em;margin-top:1rem;">From static files to liquid intelligence.</h2>
+        <p style="opacity:0.5;font-size:1.125rem;margin-top:1rem;">Three steps to revolutionize your document workflow.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;position:relative;">
+        <!-- Connector line -->
+        <div style="display:none;position:absolute;top:2rem;left:15%;right:15%;height:2px;border-top:2px dashed var(--neutral-soft);z-index:0;" id="connector-line"></div>
+        <div class="reveal text-center flex flex-col items-center gap-6" style="position:relative;z-index:1;">
+          <div class="step-number">1</div>
+          <h3 style="font-size:1.25rem;font-weight:700;">Secure Ingestion</h3>
+          <p style="opacity:0.6;line-height:1.7;">Upload PDFs, Docs, or connect your enterprise cloud. Documents are encrypted and parsed instantly.</p>
+        </div>
+        <div class="reveal text-center flex flex-col items-center gap-6" style="position:relative;z-index:1;transition-delay:0.15s;">
+          <div class="step-number">2</div>
+          <h3 style="font-size:1.25rem;font-weight:700;">Semantic Embedding</h3>
+          <p style="opacity:0.6;line-height:1.7;">Our AI maps the knowledge landscape, creating a high-dimensional vector space for deep understanding.</p>
+        </div>
+        <div class="reveal text-center flex flex-col items-center gap-6" style="position:relative;z-index:1;transition-delay:0.3s;">
+          <div class="step-number">3</div>
+          <h3 style="font-size:1.25rem;font-weight:700;">Actionable Output</h3>
+          <p style="opacity:0.6;line-height:1.7;">Ask questions, compare files, or generate summaries through our intuitive enterprise-grade interface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section style="padding:6rem 0;">
+    <div class="container">
+      <div class="cta-banner reveal" style="padding:4rem 6rem;text-align:center;border-radius:2.5rem;">
+        <h2 style="font-size:3rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:2rem;color:var(--white);">Ready to augment your<br/>corporate brain?</h2>
+        <p style="opacity:0.7;font-size:1.125rem;margin-bottom:3rem;max-width:540px;margin-left:auto;margin-right:auto;">Join the world's most innovative law firms, hedge funds, and engineering giants.</p>
+        <div class="flex gap-6" style="justify-content:center;flex-wrap:wrap;">
+          <a href="pages/register.html" class="btn btn-accent btn-lg btn-ripple">Start Your Free Trial</a>
+          <a href="#" class="btn btn-lg btn-ripple" style="background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:var(--white);">Talk to Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer style="background:var(--white);border-top:1px solid var(--neutral-soft);padding:5rem 0 3rem;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem;">
+      <div>
+        <div class="flex items-center gap-3" style="margin-bottom:1.5rem;">
+          <img src="images/logo.svg" alt="DocIntel AI" style="width:2rem;height:2rem;object-fit:contain;"/>
+          <h1 style="font-size:1.25rem;font-weight:700;">DocIntel AI</h1>
+        </div>
+        <p style="opacity:0.5;max-width:280px;line-height:1.7;font-size:0.9375rem;">
+          The definitive platform for enterprise document intelligence and semantic retrieval. Powered by next-gen RAG.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-weight:700;margin-bottom:1.5rem;">Product</h3>
+        <ul style="display:flex;flex-direction:column;gap:1rem;font-size:0.875rem;opacity:0.5;">
+          <li><a href="#" class="footer-link">Semantic Search</a></li>
+          <li><a href="#" class="footer-link">Auto-Summaries</a></li>
+          <li><a href="#" class="footer-link">API Access</a></li>
+          <li><a href="#" class="footer-link">Integrations</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-weight:700;margin-bottom:1.5rem;">Company</h3>
+        <ul style="display:flex;flex-direction:column;gap:1rem;font-size:0.875rem;opacity:0.5;">
+          <li><a href="#" class="footer-link">About Us</a></li>
+          <li><a href="#" class="footer-link">Security</a></li>
+          <li><a href="#" class="footer-link">Careers</a></li>
+          <li><a href="#" class="footer-link">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-weight:700;margin-bottom:1.5rem;">Resources</h3>
+        <ul style="display:flex;flex-direction:column;gap:1rem;font-size:0.875rem;opacity:0.5;">
+          <li><a href="#" class="footer-link">Documentation</a></li>
+          <li><a href="#" class="footer-link">Case Studies</a></li>
+          <li><a href="#" class="footer-link">Research Hub</a></li>
+          <li><a href="#" class="footer-link">System Status</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex items-center justify-between" style="padding-top:2rem;border-top:1px solid var(--neutral-soft);">
+      <p style="font-size:0.8125rem;opacity:0.35;">© 2024 DocIntel AI Inc. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" style="opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.35'"><span class="material-symbols-outlined">public</span></a>
+        <a href="#" style="opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.35'"><span class="material-symbols-outlined">alternate_email</span></a>
+        <a href="#" style="opacity:0.35;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.35'"><span class="material-symbols-outlined">hub</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  // Show nav links on desktop
+  if (window.innerWidth > 768) document.getElementById('nav-links').style.display = 'flex';
+  window.addEventListener('resize', () => {
+    document.getElementById('nav-links').style.display = window.innerWidth > 768 ? 'flex' : 'none';
+  });
+  // Show connector line on desktop
+  if (window.innerWidth > 1024) document.getElementById('connector-line').style.display = 'block';
+</script>
+</body>
+</html>

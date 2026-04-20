@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — Summaries</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body{display:flex;min-height:100vh;margin:0}
+    .summary-type-card{padding:1.5rem;border-radius:var(--radius-xl);cursor:pointer;transition:all 0.3s;border:2px solid transparent}
+    .summary-type-card:hover{border-color:rgba(var(--primary-rgb),0.2)}
+    .summary-type-card.selected{border-color:var(--primary);background:rgba(var(--accent-rgb),0.08)}
+    .summary-output{padding:2rem;border-radius:var(--radius-xl);font-size:0.9375rem;line-height:1.8;color:#334155}
+    .summary-section{margin-bottom:1.5rem}
+    .summary-section h4{font-weight:700;color:var(--primary);margin-bottom:0.5rem;font-size:1rem}
+    .key-point{display:flex;gap:0.75rem;padding:0.5rem 0;font-size:0.875rem}
+    .key-point .material-symbols-outlined{color:var(--accent);font-size:1.125rem;flex-shrink:0;margin-top:0.125rem}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-icon" style="background:none;padding:0;"><img src="../images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;"/></div><div><h1>DocIntel AI</h1><p>Enterprise Grade</p></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html" class="active"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="settings.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);"><span class="material-symbols-outlined">settings</span><span>Settings</span></a></div>
+  </aside>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb"><span>Main</span><span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span><span class="active">Summaries</span></div>
+      <div class="flex items-center gap-3"><div class="user-info"><div class="user-avatar" id="user-avatar">—</div></div></div>
+    </header>
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <div class="anim-fade-up"><h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);">Document Summaries</h2><p style="color:#64748b;margin-top:0.25rem;">Generate AI-powered summaries tailored to your needs.</p></div>
+      <!-- Document Selection -->
+      <div class="card-static anim-fade-up delay-1" style="padding:1.5rem;">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:end;">
+          <div class="control-group"><span style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">Select Document</span>
+            <select id="doc-select" style="width:100%;padding:0.75rem;border:1px solid var(--neutral-soft);border-radius:var(--radius-md);font-family:var(--font);font-size:0.875rem;background:var(--bg-light);margin-top:0.375rem;">
+              <option disabled selected>Loading documents…</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-ripple" onclick="generateSummary()"><span class="material-symbols-outlined" style="font-size:1rem;">auto_awesome</span>Generate</button>
+        </div>
+      </div>
+      <!-- Summary Types -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;" data-stagger="0.1">
+        <div class="card-static summary-type-card selected anim-fade-up" onclick="selectType(this,'short')">
+          <div class="stat-icon" style="margin-bottom:1rem;"><span class="material-symbols-outlined">short_text</span></div>
+          <h3 style="font-weight:700;margin-bottom:0.25rem;">Short Summary</h3>
+          <p style="font-size:0.8125rem;color:#64748b;">Quick 2-3 paragraph overview</p>
+        </div>
+        <div class="card-static summary-type-card anim-fade-up" onclick="selectType(this,'executive')">
+          <div class="stat-icon" style="margin-bottom:1rem;"><span class="material-symbols-outlined">business_center</span></div>
+          <h3 style="font-weight:700;margin-bottom:0.25rem;">Executive Summary</h3>
+          <p style="font-size:0.8125rem;color:#64748b;">Board-ready detailed analysis</p>
+        </div>
+        <div class="card-static summary-type-card anim-fade-up" onclick="selectType(this,'exam')">
+          <div class="stat-icon" style="margin-bottom:1rem;"><span class="material-symbols-outlined">school</span></div>
+          <h3 style="font-weight:700;margin-bottom:0.25rem;">Exam Summary</h3>
+          <p style="font-size:0.8125rem;color:#64748b;">Key facts and study points</p>
+        </div>
+      </div>
+      <!-- Summary Output -->
+      <div class="card-static summary-output anim-fade-up delay-4" id="summary-output">
+        <div class="flex items-center gap-2" style="margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(var(--primary-rgb),0.05);">
+          <span class="material-symbols-outlined" style="color:var(--primary);">auto_awesome</span>
+          <h3 style="font-weight:800;color:var(--primary);">AI-Generated Summary</h3>
+          <span class="tag" id="summary-doc-tag" style="margin-left:auto;">Select a document above</span>
+        </div>
+        <div class="summary-section" id="summary-content">
+          <div style="text-align:center;padding:3rem 1rem;color:#94a3b8;">
+            <span class="material-symbols-outlined" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.4;">summarize</span>
+            <p style="font-weight:600;font-size:0.9375rem;">No summary yet</p>
+            <p style="font-size:0.8125rem;margin-top:0.5rem;">Select a document, choose a summary type, and click Generate.</p>
+          </div>
+        </div>
+        <div class="flex gap-3" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(var(--primary-rgb),0.05);">
+          <button class="btn btn-secondary" style="font-size:0.8125rem;" onclick="copySummary()"><span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>Copy</button>
+          <button class="btn btn-secondary" style="font-size:0.8125rem;" onclick="generateSummary()"><span class="material-symbols-outlined" style="font-size:1rem;">refresh</span>Regenerate</button>
+        </div>
+      </div>
+    </div>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  let selectedType = 'short';
+  let readyDocs = [];
+
+  async function loadDocs() {
+    try {
+      const res = await API.get('/documents/');
+      readyDocs = res.documents.filter(d => d.status === 'ready');
+      const sel = document.getElementById('doc-select');
+      if (!sel) return;
+      sel.innerHTML = readyDocs.length
+        ? readyDocs.map(d => `<option value="${d.id}">${d.file_name}</option>`).join('')
+        : '<option disabled>No ready documents — upload a PDF first</option>';
+
+      // Pre-select from URL param
+      const urlDoc = new URLSearchParams(window.location.search).get('doc');
+      if (urlDoc) sel.value = urlDoc;
+    } catch (_) {}
+  }
+
+  function selectType(el, type) {
+    document.querySelectorAll('.summary-type-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedType = type;
+  }
+
+  async function generateSummary() {
+    const sel = document.getElementById('doc-select');
+    const docId = sel ? sel.value : null;
+    if (!docId || sel.selectedIndex < 0 || sel.options[sel.selectedIndex]?.disabled) {
+      showNotification('Select a document first', 'error'); return;
+    }
+
+    showNotification('Generating AI summary…', 'info');
+    const output = document.getElementById('summary-output');
+    const content = document.getElementById('summary-content');
+    output.style.opacity = '0.6';
+    content.innerHTML = `<div style="text-align:center;padding:2rem;color:#94a3b8;">
+      <span class="material-symbols-outlined" style="font-size:2rem;display:block;margin-bottom:0.5rem;animation:pulse 1.5s infinite;">auto_awesome</span>
+      Generating ${selectedType} summary…
+    </div>`;
+
+    try {
+      const res = await API.post('/summary/', { document_id: docId, summary_type: selectedType });
+      output.style.opacity = '1';
+
+      const tag = document.getElementById('summary-doc-tag');
+      const doc = readyDocs.find(d => d.id === docId);
+      if (tag && doc) tag.textContent = doc.file_name;
+
+      content.innerHTML = `
+        <h4>AI Summary — ${selectedType.charAt(0).toUpperCase()+selectedType.slice(1)}</h4>
+        <p id="summary-text" style="white-space:pre-wrap;line-height:1.8;color:#334155;">${res.content}</p>`;
+      showNotification('Summary generated!', 'success');
+    } catch (e) {
+      output.style.opacity = '1';
+      content.innerHTML = `<p style="color:#ef4444;">⚠️ ${e.message || 'Summary failed. Make sure OpenAI API key is set.'}</p>`;
+      showNotification(e.message || 'Summary failed', 'error');
+    }
+  }
+
+  function copySummary() {
+    const el = document.getElementById('summary-text');
+    if (!el) { showNotification('Generate a summary first', 'error'); return; }
+    navigator.clipboard.writeText(el.textContent).then(() => showNotification('Copied!', 'success'));
+  }
+
+  document.addEventListener('DOMContentLoaded', loadDocs);
+</script>
+</body>
+</html>
