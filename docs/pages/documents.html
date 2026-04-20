@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — My Documents</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body{display:flex;min-height:100vh;margin:0}
+    .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+    .doc-card{border-radius:var(--radius-xl);overflow:hidden;transition:all 0.3s ease}
+    .doc-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .doc-thumb{height:160px;background:linear-gradient(135deg,rgba(var(--accent-rgb),0.15),rgba(var(--primary-rgb),0.05));display:flex;align-items:center;justify-content:center;position:relative}
+    .doc-thumb .material-symbols-outlined{font-size:3rem;opacity:0.3}
+    .doc-status{position:absolute;top:0.75rem;right:0.75rem}
+    .doc-meta{padding:1.25rem}
+    .doc-title{font-size:0.9375rem;font-weight:700;color:var(--primary);margin-bottom:0.375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .doc-info{font-size:0.75rem;color:#64748b;display:flex;align-items:center;gap:0.5rem}
+    .view-toggle{display:flex;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--neutral-soft)}
+    .view-btn{padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:600;transition:all 0.2s}
+    .view-btn.active{background:var(--primary);color:var(--white)}
+    .filter-chip{padding:0.375rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:600;border:1px solid var(--neutral-soft);transition:all 0.2s;cursor:pointer}
+    .filter-chip:hover,.filter-chip.active{background:var(--primary);color:var(--accent);border-color:var(--primary)}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-icon" style="background:none;padding:0;"><img src="../images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;"/></div><div><h1>DocIntel AI</h1><p>Enterprise Grade</p></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html" class="active"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="settings.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);"><span class="material-symbols-outlined">settings</span><span>Settings</span></a></div>
+  </aside>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb"><span>Main</span><span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span><span class="active">My Documents</span></div>
+      <div class="flex items-center gap-3">
+        <div class="search-box"><span class="material-symbols-outlined">search</span><input type="text" placeholder="Search documents..."/></div>
+        <div class="flex items-center gap-3"><button class="notification-btn"><span class="material-symbols-outlined">notifications</span><span class="notification-dot"></span></button><div class="user-info"><div class="user-avatar" id="user-avatar">—</div></div></div>
+      </div>
+    </header>
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <div class="flex justify-between items-center anim-fade-up">
+        <div><h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);">My Documents</h2><p style="color:#64748b;margin-top:0.25rem;">Manage your uploaded documents and their AI indexing status.</p></div>
+        <button class="btn btn-primary btn-ripple" onclick="document.getElementById('file-input').click()"><span class="material-symbols-outlined" style="font-size:1.125rem;">upload_file</span>Upload Document</button>
+        <input type="file" id="file-input" accept=".pdf" style="display:none" onchange="handleUpload(this)"/>
+      </div>
+      <!-- Filters -->
+      <div class="flex items-center gap-3 anim-fade-up delay-1">
+        <span class="filter-chip active">All</span><span class="filter-chip">PDF</span><span class="filter-chip">DOCX</span><span class="filter-chip">Ready</span><span class="filter-chip">Processing</span>
+        <div style="margin-left:auto" class="view-toggle"><button class="view-btn active" onclick="setView('grid')"><span class="material-symbols-outlined" style="font-size:1rem;">grid_view</span></button><button class="view-btn" onclick="setView('list')"><span class="material-symbols-outlined" style="font-size:1rem;">view_list</span></button></div>
+      </div>
+      <!-- Upload Dropzone -->
+      <div class="dropzone anim-fade-up delay-2" id="dropzone" onclick="document.getElementById('file-input').click()">
+        <span class="material-symbols-outlined anim-float">cloud_upload</span>
+        <h3 style="font-size:1.125rem;font-weight:700;margin-top:1rem;color:var(--primary);">Drag & drop your PDF here</h3>
+        <p style="font-size:0.875rem;color:#64748b;margin-top:0.5rem;">or click to browse • Max 50MB per file</p>
+      </div>
+      <!-- Document Grid -->
+      <div class="doc-grid" id="doc-grid" data-stagger="0.08">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#94a3b8;">
+          <span class="material-symbols-outlined" style="font-size:2rem;display:block;margin-bottom:0.5rem;animation:pulse 1.5s infinite;">hourglass_empty</span>
+          Loading your documents…
+        </div>
+      </div>
+    </div>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  let allDocs = [];
+  let currentFilter = 'all';
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function fmtSize(b) {
+    if (b >= 1e6) return (b/1e6).toFixed(1)+' MB';
+    return (b/1e3).toFixed(0)+' KB';
+  }
+  function statusBadge(s) {
+    const map = { ready: 'badge-success', processing: 'badge-processing', failed: 'badge-error' };
+    return `<span class="badge ${map[s] || ''}">${s.charAt(0).toUpperCase()+s.slice(1)}</span>`;
+  }
+
+  function renderGrid(docs) {
+    const grid = document.getElementById('doc-grid');
+    if (!docs.length) {
+      grid.innerHTML = '<p style="color:#94a3b8;grid-column:1/-1;text-align:center;padding:3rem;">No documents found. Upload your first PDF!</p>';
+      return;
+    }
+    grid.innerHTML = docs.map(d => `
+      <div class="card-static doc-card anim-fade-up">
+        <div class="doc-thumb">
+          <span class="material-symbols-outlined" style="color:${d.file_name.endsWith('.pdf') ? '#ef4444' : '#3b82f6'};">
+            ${d.file_name.endsWith('.pdf') ? 'picture_as_pdf' : 'description'}
+          </span>
+          <div class="doc-status">${statusBadge(d.status)}</div>
+        </div>
+        <div class="doc-meta">
+          <p class="doc-title" title="${d.file_name}">${d.file_name}</p>
+          <div class="doc-info">
+            <span>${d.page_count} pages</span><span>•</span>
+            <span>${fmtSize(d.file_size)}</span><span>•</span>
+            <span>${fmtDate(d.upload_date)}</span>
+          </div>
+          <div class="flex gap-2" style="margin-top:0.75rem;">
+            ${d.status === 'ready' ? `
+              <button class="btn btn-primary" style="font-size:0.6875rem;padding:0.375rem 0.75rem;" onclick="location.href='chat.html?doc=${d.id}'">
+                <span class="material-symbols-outlined" style="font-size:0.875rem;">chat</span>Chat
+              </button>
+              <button class="btn btn-secondary" style="font-size:0.6875rem;padding:0.375rem 0.75rem;" onclick="location.href='summary.html?doc=${d.id}'">
+                <span class="material-symbols-outlined" style="font-size:0.875rem;">summarize</span>Summary
+              </button>
+            ` : d.status === 'failed' ? `
+              <button class="btn btn-secondary" style="font-size:0.6875rem;padding:0.375rem 0.75rem;color:#ef4444;" onclick="deleteDoc('${d.id}')">
+                <span class="material-symbols-outlined" style="font-size:0.875rem;">delete</span>Delete
+              </button>
+            ` : `
+              <div style="width:100%;">
+                <div class="progress-bar"><div class="progress-fill" style="width:60%;"></div></div>
+                <p style="font-size:0.625rem;color:#64748b;margin-top:0.25rem;">Indexing…</p>
+              </div>
+            `}
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function applyFilter(filter) {
+    currentFilter = filter;
+    let filtered = allDocs;
+    if (filter === 'pdf')        filtered = allDocs.filter(d => d.file_name.endsWith('.pdf'));
+    else if (filter === 'docx')  filtered = allDocs.filter(d => d.file_name.endsWith('.docx'));
+    else if (filter === 'ready') filtered = allDocs.filter(d => d.status === 'ready');
+    else if (filter === 'processing') filtered = allDocs.filter(d => d.status === 'processing');
+    renderGrid(filtered);
+  }
+
+  async function loadDocuments() {
+    try {
+      const res = await API.get('/documents/');
+      allDocs = res.documents;
+      applyFilter(currentFilter);
+    } catch (e) { showNotification('Failed to load documents', 'error'); }
+  }
+
+  async function deleteDoc(id) {
+    if (!confirm('Delete this document? This cannot be undone.')) return;
+    try {
+      await API.delete(`/documents/${id}`);
+      showNotification('Document deleted', 'success');
+      loadDocuments();
+    } catch (e) { showNotification(e.message, 'error'); }
+  }
+
+  async function handleUpload(input) {
+    if (!input.files.length) return;
+    const file = input.files[0];
+    showNotification(`Uploading ${file.name}…`, 'info');
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      await API.upload('/documents/upload', fd);
+      showNotification(`${file.name} uploaded and indexing!`, 'success');
+      loadDocuments();
+    } catch (e) { showNotification(e.message || 'Upload failed', 'error'); }
+    input.value = '';
+  }
+
+  function setView(v) {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    event.target.closest('.view-btn').classList.add('active');
+    const grid = document.getElementById('doc-grid');
+    grid.style.gridTemplateColumns = v === 'list' ? '1fr' : 'repeat(auto-fill,minmax(280px,1fr))';
+  }
+
+  // Real-time
+  function setupRealtime() {
+    RealtimeManager.onBroadcast('documents', 'INSERT', () => loadDocuments());
+    RealtimeManager.onBroadcast('documents', 'UPDATE', () => loadDocuments());
+    RealtimeManager.onBroadcast('documents', 'DELETE', () => loadDocuments());
+    RealtimeManager.onTable('documents', () => loadDocuments());
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDocuments();
+    setupRealtime();
+
+    // Filter chips
+    document.querySelectorAll('.filter-chip').forEach(c => c.addEventListener('click', function() {
+      document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+      const map = { 'All': 'all', 'PDF': 'pdf', 'DOCX': 'docx', 'Ready': 'ready', 'Processing': 'processing' };
+      applyFilter(map[this.textContent.trim()] || 'all');
+    }));
+
+    // Dropzone
+    initDropzone(document.getElementById('dropzone'), (files) => {
+      if (!files.length) return;
+      const fd = new FormData();
+      fd.append('file', files[0]);
+      showNotification(`Uploading ${files[0].name}…`, 'info');
+      API.upload('/documents/upload', fd)
+        .then(() => { showNotification('Upload complete!', 'success'); loadDocuments(); })
+        .catch(e => showNotification(e.message || 'Upload failed', 'error'));
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — Settings</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body{display:flex;min-height:100vh;margin:0}
+    .settings-tabs{display:flex;gap:0.5rem;border-bottom:1px solid var(--neutral-soft);padding-bottom:0.5rem}
+    .settings-tab{padding:0.5rem 1rem;border-radius:var(--radius-md);font-size:0.8125rem;font-weight:600;color:#64748b;transition:all 0.2s}
+    .settings-tab:hover{color:var(--primary)}
+    .settings-tab.active{background:var(--primary);color:var(--white)}
+    .setting-row{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;border-bottom:1px solid rgba(var(--primary-rgb),0.04)}
+    .setting-row:last-child{border:none}
+    .setting-info h4{font-weight:600;font-size:0.9375rem;margin-bottom:0.125rem}
+    .setting-info p{font-size:0.75rem;color:#64748b}
+    .api-key-field{display:flex;gap:0.5rem;align-items:center}
+    .api-key-input{padding:0.625rem;border:1px solid var(--neutral-soft);border-radius:var(--radius-md);font-family:monospace;font-size:0.8125rem;width:300px;background:var(--bg-light)}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-icon" style="background:none;padding:0;"><img src="../images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;"/></div><div><h1>DocIntel AI</h1><p>Enterprise Grade</p></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="settings.html" class="active" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;background:var(--primary);color:var(--white);"><span class="material-symbols-outlined">settings</span><span>Settings</span></a><button onclick="Auth.logout()" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);width:100%;margin-top:0.25rem;background:none;border:none;cursor:pointer;"><span class="material-symbols-outlined">logout</span><span>Sign Out</span></button></div>
+  </aside>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb"><span>Main</span><span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span><span class="active">Settings</span></div>
+      <div class="flex items-center gap-3"><button class="btn btn-primary" style="font-size:0.8125rem;" onclick="saveSettings()"><span class="material-symbols-outlined" style="font-size:1rem;">save</span>Save Changes</button><div class="user-info"><div class="user-avatar" id="user-avatar">—</div></div></div>
+    </header>
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <div class="anim-fade-up"><h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);">Settings</h2><p style="color:#64748b;margin-top:0.25rem;">Manage your account, API keys, and application preferences.</p></div>
+      <!-- Tabs -->
+      <div class="settings-tabs anim-fade-up delay-1">
+        <button class="settings-tab active" onclick="switchTab(this)">General</button>
+        <button class="settings-tab" onclick="switchTab(this)">API Keys</button>
+        <button class="settings-tab" onclick="switchTab(this)">Team</button>
+        <button class="settings-tab" onclick="switchTab(this)">Security</button>
+      </div>
+      <!-- General Settings -->
+      <div class="card-static anim-fade-up delay-2" style="padding:1.5rem;">
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:0.5rem;">Profile</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+          <div class="input-group"><label>Full Name</label><div class="input-wrapper"><span class="material-symbols-outlined">person</span><input id="setting-name" class="input-field" type="text" placeholder="Your full name"/></div></div>
+          <div class="input-group"><label>Email</label><div class="input-wrapper"><span class="material-symbols-outlined">mail</span><input id="setting-email" class="input-field" type="email" placeholder="your@email.com"/></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div class="input-group"><label>Organization</label><div class="input-wrapper"><span class="material-symbols-outlined">business</span><input id="setting-org" class="input-field" type="text" placeholder="Your organization"/></div></div>
+          <div class="input-group"><label>Role</label><div class="input-wrapper"><span class="material-symbols-outlined">badge</span><input id="setting-role" class="input-field" type="text" placeholder="Your role" value="Enterprise Admin"/></div></div>
+        </div>
+      </div>
+      <!-- Preferences -->
+      <div class="card-static anim-fade-up delay-3" style="padding:1.5rem;">
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:1rem;">Preferences</h3>
+        <div class="setting-row"><div class="setting-info"><h4>AI Model</h4><p>Select the AI model for document analysis</p></div><select style="padding:0.5rem;border:1px solid var(--neutral-soft);border-radius:var(--radius-md);font-family:var(--font);font-size:0.8125rem;"><option>GPT-4 Turbo</option><option>GPT-3.5 Turbo</option><option>Claude 3</option></select></div>
+        <div class="setting-row"><div class="setting-info"><h4>Dark Mode</h4><p>Switch to dark theme</p></div><div class="toggle" onclick="this.classList.toggle('active')"></div></div>
+        <div class="setting-row"><div class="setting-info"><h4>Email Notifications</h4><p>Receive alerts for completed analyses</p></div><div class="toggle active" onclick="this.classList.toggle('active')"></div></div>
+        <div class="setting-row"><div class="setting-info"><h4>Auto-Summarize on Upload</h4><p>Automatically generate summary when uploading documents</p></div><div class="toggle active" onclick="this.classList.toggle('active')"></div></div>
+      </div>
+      <!-- API Keys -->
+      <div class="card-static anim-fade-up delay-4" style="padding:1.5rem;">
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:1rem;">API Configuration</h3>
+        <div class="setting-row"><div class="setting-info"><h4>OpenAI API Key</h4><p>Required for AI features</p></div><div class="api-key-field"><input class="api-key-input" type="password" value="sk-proj-xxxxx...xxxxx" /><button class="btn btn-secondary" style="font-size:0.75rem;padding:0.375rem 0.75rem;">Reveal</button></div></div>
+        <div class="setting-row"><div class="setting-info"><h4>Pinecone API Key</h4><p>For vector database (optional)</p></div><div class="api-key-field"><input class="api-key-input" type="password" placeholder="Enter Pinecone API key" /><button class="btn btn-secondary" style="font-size:0.75rem;padding:0.375rem 0.75rem;">Save</button></div></div>
+        <div class="setting-row"><div class="setting-info"><h4>Database URL</h4><p>PostgreSQL connection string</p></div><div class="api-key-field"><input class="api-key-input" type="password" value="postgresql://..." /><button class="btn btn-secondary" style="font-size:0.75rem;padding:0.375rem 0.75rem;">Test</button></div></div>
+      </div>
+      <!-- Danger Zone -->
+      <div class="card-static anim-fade-up delay-5" style="padding:1.5rem;border:1px solid rgba(239,68,68,0.2);">
+        <h3 style="font-weight:700;color:#ef4444;margin-bottom:0.5rem;">Danger Zone</h3>
+        <p style="font-size:0.875rem;color:#64748b;margin-bottom:1rem;">These actions are irreversible. Proceed with caution.</p>
+        <div class="flex gap-3">
+          <button class="btn btn-secondary" style="font-size:0.8125rem;color:#ef4444;border-color:rgba(239,68,68,0.3);"><span class="material-symbols-outlined" style="font-size:1rem;">delete_forever</span>Delete All Documents</button>
+          <button class="btn btn-secondary" style="font-size:0.8125rem;color:#ef4444;border-color:rgba(239,68,68,0.3);"><span class="material-symbols-outlined" style="font-size:1rem;">person_remove</span>Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  async function loadUser() {
+    try {
+      const user = await API.get('/auth/me');
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      set('setting-name',  user.full_name);
+      set('setting-email', user.email);
+      set('setting-org',   user.organization_id);
+      // Avatar handled by supabase.js _autoLoadUser()
+    } catch (_) {}
+  }
+
+  function switchTab(btn) {
+    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function saveSettings() { showNotification('Settings saved successfully!', 'success'); }
+
+  document.addEventListener('DOMContentLoaded', loadUser);
+</script>
+</body>
+</html>

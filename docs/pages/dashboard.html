@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { display: flex; min-height: 100vh; margin: 0; }
+    .action-btn {
+      padding: 0.375rem; color: var(--primary); border-radius: var(--radius-md);
+      display: inline-flex; transition: background 0.2s;
+    }
+    .action-btn:hover { background: rgba(var(--accent-rgb), 0.3); }
+    .doc-icon { font-size: 1.25rem; }
+    .doc-name { font-size: 0.875rem; font-weight: 600; color: var(--primary); }
+    .doc-date { font-size: 0.875rem; color: #64748b; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">
+        <span class="material-symbols-outlined" style="font-size:1.5rem;">neurology</span>
+      </div>
+      <div>
+        <h1>DocIntel AI</h1>
+        <p>Enterprise Grade</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="active"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="settings.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);transition:background 0.2s;">
+        <span class="material-symbols-outlined">settings</span><span>Settings</span>
+      </a>
+      <div class="sidebar-quota">
+        <p class="label">PRO PLAN</p>
+        <p class="desc">You have used 78% of your enterprise quota.</p>
+        <div class="progress-bar"><div class="progress-fill" data-width="78%"></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb">
+        <span>Main</span>
+        <span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span>
+        <span class="active">Dashboard</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" placeholder="Search documents, chats, reports..."/>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="notification-btn">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="notification-dot"></span>
+          </button>
+          <div style="height:2rem;width:1px;background:rgba(var(--primary-rgb),0.1);"></div>
+          <div class="user-info">
+            <div style="text-align:right;">
+              <p class="name" id="user-name">—</p>
+              <p class="role">Enterprise Admin</p>
+            </div>
+            <div class="user-avatar" id="user-avatar">—</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <!-- Welcome -->
+      <div class="flex justify-between items-center anim-fade-up">
+        <div>
+          <h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);letter-spacing:-0.02em;">Welcome back, Alex</h2>
+          <p style="color:#64748b;margin-top:0.25rem;">Here's what's happening with your intelligence engine today.</p>
+        </div>
+        <a href="documents.html" class="btn btn-primary btn-ripple">
+          <span class="material-symbols-outlined" style="font-size:1.125rem;">upload_file</span>
+          Upload New Document
+        </a>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" data-stagger="0.1">
+        <div class="card stat-card anim-fade-up">
+          <div class="flex justify-between items-center" style="margin-bottom:1rem;">
+            <div class="stat-icon"><span class="material-symbols-outlined">folder_open</span></div>
+            <span class="stat-badge positive" id="badge-docs">—</span>
+          </div>
+          <p class="stat-label">Total Documents</p>
+          <h3 class="stat-value" id="stat-docs">—</h3>
+        </div>
+        <div class="card stat-card anim-fade-up delay-1">
+          <div class="flex justify-between items-center" style="margin-bottom:1rem;">
+            <div class="stat-icon"><span class="material-symbols-outlined">quiz</span></div>
+            <span class="stat-badge positive" id="badge-queries">—</span>
+          </div>
+          <p class="stat-label">AI Questions Asked</p>
+          <h3 class="stat-value" id="stat-queries">—</h3>
+        </div>
+        <div class="card stat-card anim-fade-up delay-2">
+          <div class="flex justify-between items-center" style="margin-bottom:1rem;">
+            <div class="stat-icon"><span class="material-symbols-outlined">storage</span></div>
+            <span class="stat-badge neutral" id="badge-storage">—</span>
+          </div>
+          <p class="stat-label">Storage Used</p>
+          <h3 class="stat-value" id="stat-storage">—</h3>
+          <div class="progress-bar" style="margin-top:0.75rem;"><div class="progress-fill" id="storage-fill" style="width:0%"></div></div>
+        </div>
+        <div class="card stat-card anim-fade-up delay-3">
+          <div class="flex justify-between items-center" style="margin-bottom:1rem;">
+            <div class="stat-icon"><span class="material-symbols-outlined">auto_stories</span></div>
+            <span class="stat-badge neutral">Today</span>
+          </div>
+          <p class="stat-label">Total Exports</p>
+          <h3 class="stat-value" id="stat-exports">—</h3>
+        </div>
+      </div>
+
+      <!-- Tables & Chart Row -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;">
+        <!-- Recent Documents -->
+        <div class="card-static anim-fade-up delay-4" style="overflow:hidden;">
+          <div class="flex justify-between items-center" style="padding:1.5rem;border-bottom:1px solid rgba(var(--primary-rgb),0.04);">
+            <h3 style="font-weight:800;color:var(--primary);">Recent Documents</h3>
+            <a href="documents.html" style="font-size:0.875rem;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:0.25rem;">
+              View All <span class="material-symbols-outlined" style="font-size:0.875rem;">arrow_forward</span>
+            </a>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Document Name</th><th>Upload Date</th><th>AI Index Status</th><th style="text-align:right;">Actions</th></tr></thead>
+            <tbody id="docs-tbody">
+              <tr><td colspan="4" style="text-align:center;padding:2rem;color:#94a3b8;">
+                <span class="material-symbols-outlined" style="font-size:1.5rem;display:block;margin-bottom:0.5rem;animation:pulse 1.5s infinite;">hourglass_empty</span>Loading documents…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Usage Analytics Chart -->
+        <div class="card-static anim-fade-up delay-5" style="padding:1.5rem;display:flex;flex-direction:column;">
+          <div class="flex justify-between items-center" style="margin-bottom:2rem;">
+            <div>
+              <h3 style="font-weight:800;color:var(--primary);">Usage Analytics</h3>
+              <p style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;">Activity over last 7 days</p>
+            </div>
+            <button style="padding:0.5rem;background:rgba(var(--primary-rgb),0.03);border-radius:var(--radius-md);">
+              <span class="material-symbols-outlined" style="color:var(--primary);font-size:1.25rem;">more_vert</span>
+            </button>
+          </div>
+          <div class="bar-chart" style="flex:1;" id="usage-chart">
+            <div class="bar-col"><div class="bar" id="bar-0" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">MON</span></div>
+            <div class="bar-col"><div class="bar" id="bar-1" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">TUE</span></div>
+            <div class="bar-col"><div class="bar" id="bar-2" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">WED</span></div>
+            <div class="bar-col"><div class="bar" id="bar-3" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">THU</span></div>
+            <div class="bar-col"><div class="bar" id="bar-4" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">FRI</span></div>
+            <div class="bar-col"><div class="bar" id="bar-5" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">SAT</span></div>
+            <div class="bar-col"><div class="bar" id="bar-6" style="height:0%;"><div class="bar-tooltip">0</div></div><span class="bar-label">SUN</span></div>
+          </div>
+          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(var(--primary-rgb),0.04);display:flex;flex-direction:column;gap:1rem;">
+            <div class="flex justify-between"><span style="font-size:0.75rem;font-weight:700;color:#64748b;">Query Efficiency</span><span id="stat-accuracy" style="font-size:0.75rem;font-weight:700;color:var(--primary);">—</span></div>
+            <div class="flex justify-between"><span style="font-size:0.75rem;font-weight:700;color:#64748b;">Avg. Response Time</span><span id="stat-response" style="font-size:0.75rem;font-weight:700;color:var(--primary);">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Banner -->
+      <div class="cta-banner anim-fade-up delay-6" style="display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+        <div class="flex items-center gap-6">
+          <div style="width:4rem;height:4rem;background:rgba(var(--accent-rgb),0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(var(--accent-rgb),0.2);">
+            <span class="material-symbols-outlined anim-float" style="font-size:2.5rem;">rocket_launch</span>
+          </div>
+          <div>
+            <h3 style="font-size:1.25rem;font-weight:700;color:var(--white);">New: Deep Analysis Mode</h3>
+            <p style="opacity:0.65;font-size:0.875rem;max-width:400px;">Process multiple documents simultaneously to find cross-correlated insights and hidden patterns.</p>
+          </div>
+        </div>
+        <a href="chat.html" class="btn btn-accent btn-ripple" style="font-size:0.875rem;font-weight:800;">Try Deep Analysis</a>
+      </div>
+    </div>
+  </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function statusBadge(s) {
+    const map = { ready: 'badge-success', processing: 'badge-processing', failed: 'badge-error' };
+    return `<span class="badge ${map[s] || ''}">${s.charAt(0).toUpperCase()+s.slice(1)}</span>`;
+  }
+  function docIcon(name) {
+    if (name.endsWith('.pdf')) return `<span class="material-symbols-outlined doc-icon" style="color:#ef4444;">picture_as_pdf</span>`;
+    return `<span class="material-symbols-outlined doc-icon" style="color:#3b82f6;">description</span>`;
+  }
+  function fmtBytes(b) {
+    if (b >= 1e9) return (b/1e9).toFixed(1)+' GB';
+    if (b >= 1e6) return (b/1e6).toFixed(1)+' MB';
+    return (b/1e3).toFixed(0)+' KB';
+  }
+
+  // ── Render recent docs table ──────────────────────────────────────────────
+  function renderDocs(docs) {
+    const tbody = document.getElementById('docs-tbody');
+    if (!tbody) return;
+    if (!docs.length) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:2rem;">No documents yet. Upload your first PDF!</td></tr>';
+      return;
+    }
+    tbody.innerHTML = docs.slice(0, 5).map(d => `
+      <tr>
+        <td class="flex items-center gap-3">${docIcon(d.file_name)}<span class="doc-name">${d.file_name}</span></td>
+        <td class="doc-date">${fmtDate(d.upload_date)}</td>
+        <td>${statusBadge(d.status)}</td>
+        <td style="text-align:right;">
+          ${d.status === 'ready' ? `
+            <button class="action-btn" data-tooltip="Chat" onclick="location.href='chat.html?doc=${d.id}'"><span class="material-symbols-outlined" style="font-size:1.125rem;">chat</span></button>
+            <button class="action-btn" data-tooltip="Summarize" onclick="location.href='summary.html?doc=${d.id}'"><span class="material-symbols-outlined" style="font-size:1.125rem;">summarize</span></button>
+            <button class="action-btn" data-tooltip="Export" onclick="location.href='export.html?doc=${d.id}'"><span class="material-symbols-outlined" style="font-size:1.125rem;">download</span></button>
+          ` : d.status === 'failed' ? `
+            <button class="action-btn" data-tooltip="Delete" onclick="deleteDoc('${d.id}')"><span class="material-symbols-outlined" style="font-size:1.125rem;">delete</span></button>
+          ` : `<span style="font-size:0.75rem;color:#64748b;">Processing…</span>`}
+        </td>
+      </tr>`).join('');
+  }
+
+  // ── Render bar chart ──────────────────────────────────────────────────────
+  function renderChart(weekly) {
+    const max = Math.max(...weekly, 1);
+    weekly.forEach((val, i) => {
+      const bar = document.getElementById(`bar-${i}`);
+      if (!bar) return;
+      const pct = Math.round((val / max) * 90) + '%';
+      const tip = bar.querySelector('.bar-tooltip');
+      if (tip) tip.textContent = val;
+      setTimeout(() => bar.style.height = pct, 100 + i * 60);
+    });
+  }
+
+  // ── Update stat cards ─────────────────────────────────────────────────────
+  function updateStats(analytics) {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('stat-docs',    analytics.total_documents.toLocaleString());
+    set('stat-queries', analytics.total_queries.toLocaleString());
+    set('stat-exports', analytics.total_exports.toLocaleString());
+
+    const gb = (analytics.storage_used_bytes / 1e9).toFixed(2);
+    set('stat-storage', gb + ' GB');
+
+    const pct = Math.min(100, Math.round(analytics.storage_used_bytes / (20 * 1e9) * 100));
+    set('badge-storage', pct + '% Full');
+    const fill = document.getElementById('storage-fill');
+    if (fill) setTimeout(() => fill.style.width = pct + '%', 300);
+
+    // Sidebar quota bar
+    const quotaFill = document.querySelector('.sidebar-quota .progress-fill');
+    if (quotaFill) setTimeout(() => quotaFill.style.width = pct + '%', 300);
+    const quotaDesc = document.querySelector('.sidebar-quota .desc');
+    if (quotaDesc) quotaDesc.textContent = `You have used ${pct}% of your enterprise quota.`;
+
+    // Chart footer stats
+    const accEl = document.getElementById('stat-accuracy');
+    if (accEl) accEl.textContent = analytics.accuracy_score + '%';
+    const respEl = document.getElementById('stat-response');
+    if (respEl) respEl.textContent = (analytics.avg_response_time / 1000).toFixed(2) + 's';
+  }
+
+  // ── User display — handled globally by supabase.js _autoLoadUser() ──────────
+
+  async function deleteDoc(id) {
+    if (!confirm('Delete this document?')) return;
+    try {
+      await API.delete(`/documents/${id}`);
+      showNotification('Document deleted', 'success');
+      loadDashboard();
+    } catch (e) { showNotification(e.message, 'error'); }
+  }
+
+  // ── Main load ─────────────────────────────────────────────────────────────
+  async function loadDashboard() {
+    try {
+      const [docsRes, analytics] = await Promise.all([
+        API.get('/documents/'),
+        API.get('/analytics/'),
+      ]);
+      renderDocs(docsRes.documents);
+      updateStats(analytics);
+      renderChart(analytics.weekly_queries);
+    } catch (e) {
+      showNotification('Failed to load dashboard data', 'error');
+    }
+  }
+
+  // ── Real-time subscriptions ───────────────────────────────────────────────
+  function setupRealtime() {
+    // Listen for document changes (upload, status update, delete)
+    RealtimeManager.onBroadcast('documents', 'INSERT', () => loadDashboard());
+    RealtimeManager.onBroadcast('documents', 'UPDATE', () => loadDashboard());
+    RealtimeManager.onBroadcast('documents', 'DELETE', () => loadDashboard());
+    // Listen for new queries (updates AI Questions Asked counter)
+    RealtimeManager.onBroadcast('queries',   'INSERT', () => loadDashboard());
+    // Also subscribe to Postgres changes directly (catches any DB write)
+    RealtimeManager.onTable('documents', () => loadDashboard());
+    RealtimeManager.onTable('queries',   () => loadDashboard());
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDashboard();
+    setupRealtime();
+  });
+</script>
+</html>

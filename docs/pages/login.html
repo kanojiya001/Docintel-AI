@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | DocIntel AI</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { background: var(--neutral-soft); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+    .login-card {
+      width: 100%; max-width: 440px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      animation: scaleIn 0.5s ease;
+    }
+    .login-header { padding: 2.5rem 2rem 1.5rem; text-align: center; }
+    .logo-icon {
+      display: inline-flex; padding: 0.75rem; border-radius: var(--radius-xl);
+      background: rgba(var(--primary-rgb), 0.05); margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .logo-icon:hover { transform: rotate(10deg) scale(1.1); }
+    .login-body { padding: 0 2rem 2.5rem; }
+    .divider {
+      display: flex; align-items: center; padding: 0.5rem 0;
+    }
+    .divider-line { flex: 1; height: 1px; background: #f1f5f9; }
+    .divider-text {
+      padding: 0 1rem; font-size: 0.6875rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500;
+    }
+    .sso-btn {
+      width: 100%; padding: 0.75rem; border-radius: var(--radius-lg);
+      border: 1px solid #e2e8f0; background: var(--white); color: #334155;
+      font-weight: 600; font-size: 0.875rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+      transition: all var(--transition-fast);
+    }
+    .sso-btn:hover { background: #f8fafc; }
+    .sso-icon {
+      background: var(--accent); padding: 0.25rem; border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-footer {
+      background: rgba(248,250,252,0.8); padding: 1.5rem 2rem;
+      border-top: 1px solid #f1f5f9; text-align: center;
+    }
+    .help-links {
+      display: flex; justify-content: center; gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .help-link {
+      font-size: 0.75rem; color: #64748b; display: flex;
+      align-items: center; gap: 0.25rem; transition: color 0.2s;
+    }
+    .help-link:hover { color: var(--primary); }
+    .form-check {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0 0.25rem;
+    }
+    .form-check input[type="checkbox"] {
+      width: 1rem; height: 1rem; border-radius: var(--radius-sm);
+      accent-color: var(--primary);
+    }
+    .form-check label { font-size: 0.875rem; color: #475569; cursor: pointer; }
+    .shake { animation: shake 0.5s ease; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+  </style>
+</head>
+<body>
+  <div style="width:100%;max-width:440px;">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo-icon">
+          <img src="../images/logo.svg" alt="DocIntel AI" width="48" height="48" style="object-fit:contain;"/>
+        </div>
+        <h1 style="font-size:1.5rem;font-weight:800;color:#0f172a;letter-spacing:-0.02em;">DocIntel AI</h1>
+        <p style="color:#64748b;font-size:0.875rem;margin-top:0.5rem;">Enterprise document intelligence</p>
+      </div>
+      <div class="login-body">
+        <div style="margin-bottom:2rem;">
+          <h2 style="font-size:1.25rem;font-weight:700;color:#0f172a;">Welcome back</h2>
+          <p style="color:#64748b;font-size:0.875rem;">Please enter your details to sign in.</p>
+        </div>
+        <form id="login-form" style="display:flex;flex-direction:column;gap:1.25rem;" onsubmit="return handleLogin(event)">
+          <div class="input-group anim-fade-up delay-1">
+            <label>Work Email</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined">mail</span>
+              <input class="input-field" type="email" placeholder="name@company.com" id="login-email" required/>
+            </div>
+          </div>
+          <div class="input-group anim-fade-up delay-2">
+            <div class="flex justify-between items-center" style="margin-left:0.25rem;">
+              <label style="margin:0;">Password</label>
+              <a href="#" style="font-size:0.75rem;font-weight:700;color:var(--primary);">Forgot password?</a>
+            </div>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined">lock</span>
+              <input class="input-field" type="password" placeholder="••••••••" id="login-password" required style="padding-right:3rem;"/>
+              <button type="button" onclick="togglePassword(this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);color:#94a3b8;transition:color 0.2s;">
+                <span class="material-symbols-outlined" style="font-size:1.25rem;">visibility</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-check anim-fade-up delay-3">
+            <input type="checkbox" id="remember"/>
+            <label for="remember">Remember for 30 days</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-ripple anim-fade-up delay-4" style="width:100%;padding:0.875rem;margin-top:0.5rem;font-size:0.9375rem;">
+            Sign In
+            <span class="material-symbols-outlined" style="font-size:1.25rem;">login</span>
+          </button>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-text">or</span>
+            <div class="divider-line"></div>
+          </div>
+          <button type="button" class="sso-btn anim-fade-up delay-5">
+            <span class="sso-icon"><span class="material-symbols-outlined" style="font-size:1rem;color:var(--primary);">key</span></span>
+            Sign in with SSO
+          </button>
+        </form>
+      </div>
+      <div class="login-footer">
+        <p style="color:#475569;font-size:0.875rem;">
+          Don't have an account? <a href="register.html" style="color:var(--primary);font-weight:700;">Request access</a>
+        </p>
+      </div>
+    </div>
+    <div class="help-links">
+      <a class="help-link" href="#"><span class="material-symbols-outlined" style="font-size:0.875rem;">help_outline</span> Help Center</a>
+      <a class="help-link" href="#"><span class="material-symbols-outlined" style="font-size:0.875rem;">verified_user</span> Privacy Policy</a>
+      <a class="help-link" href="#"><span class="material-symbols-outlined" style="font-size:0.875rem;">language</span> English</a>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  // Redirect if already logged in
+  if (Auth.isLoggedIn()) window.location.href = 'dashboard.html';
+
+  // Check backend reachability on load and show a warning if down
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const r = await fetch('http://localhost:8000/health', { method: 'GET' });
+      if (!r.ok) throw new Error();
+    } catch (_) {
+      showNotification('⚠️ Backend server is not running. Start it with: uvicorn app.main:app --reload', 'error');
+    }
+  });
+
+  function togglePassword(btn) {
+    const input = btn.parentElement.querySelector('input');
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (input.type === 'password') { input.type = 'text'; icon.textContent = 'visibility_off'; }
+    else { input.type = 'password'; icon.textContent = 'visibility'; }
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    const email    = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const btn      = e.target.querySelector('button[type=submit]');
+
+    if (!email || !password) {
+      showNotification('Please enter your email and password.', 'error');
+      return false;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Signing in…';
+
+    try {
+      await Auth.login(email, password);
+      showNotification('Welcome back! Redirecting…', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 900);
+    } catch (err) {
+      let msg = err.message || 'Login failed';
+      // Make common errors friendlier
+      if (msg.includes('port 8000') || msg.includes('reach server')) {
+        msg = 'Cannot reach backend. Is the server running? Run: uvicorn app.main:app --reload';
+      } else if (msg.includes('Invalid credentials') || msg.includes('401')) {
+        msg = 'Incorrect email or password.';
+      } else if (msg.includes('500') || msg.includes('Internal Server Error') || msg.includes('503') || msg.includes('Database not connected')) {
+        msg = '⚠️ Database not connected. Open docintel-backend/.env and set DATABASE_URL to your real Supabase DB password (Settings → Database → Connection string in Supabase dashboard).';
+      }
+      showNotification(msg, 'error');
+      document.getElementById('login-form').classList.add('shake');
+      setTimeout(() => document.getElementById('login-form').classList.remove('shake'), 600);
+      btn.disabled = false;
+      btn.innerHTML = 'Sign In <span class="material-symbols-outlined" style="font-size:1.25rem;">login</span>';
+    }
+    return false;
+  }
+</script>
+</body>
+</html>

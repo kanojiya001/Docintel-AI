@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — Analytics & Reports</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body{display:flex;min-height:100vh;margin:0}
+    .chart-area{height:200px;display:flex;align-items:flex-end;gap:3px;padding:0 0.25rem}
+    .chart-bar{flex:1;border-radius:3px 3px 0 0;transition:height 0.8s ease,background 0.2s;cursor:pointer;position:relative}
+    .chart-bar:hover{opacity:0.85}
+    .metric-ring{width:120px;height:120px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
+    .metric-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+    .metric-ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+    .ring-bg{stroke:var(--neutral-soft)}
+    .ring-fill{stroke:var(--primary);stroke-dasharray:339.292;transition:stroke-dashoffset 1.5s ease}
+    .analytics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+    .heat-cell{width:100%;aspect-ratio:1;border-radius:3px;transition:all 0.3s;cursor:pointer}
+    .heat-cell:hover{transform:scale(1.3);z-index:1}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-icon" style="background:none;padding:0;"><img src="../images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;"/></div><div><h1>DocIntel AI</h1><p>Enterprise Grade</p></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html" class="active"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="settings.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);"><span class="material-symbols-outlined">settings</span><span>Settings</span></a></div>
+  </aside>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb"><span>Main</span><span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span><span class="active">Analytics & Reports</span></div>
+      <div class="flex items-center gap-3"><button class="btn btn-secondary" style="font-size:0.8125rem;"><span class="material-symbols-outlined" style="font-size:1rem;">download</span>Export Report</button><div class="user-info"><div class="user-avatar" id="user-avatar">—</div></div></div>
+    </header>
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <div class="anim-fade-up"><h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);">Analytics & Reports</h2><p style="color:#64748b;margin-top:0.25rem;">Track your AI usage, document processing, and team performance.</p></div>
+      <!-- KPI Row -->
+      <div class="stats-grid" data-stagger="0.1">
+        <div class="card stat-card anim-fade-up"><div class="flex justify-between items-center" style="margin-bottom:1rem;"><div class="stat-icon"><span class="material-symbols-outlined">forum</span></div><span class="stat-badge positive" id="badge-queries">—</span></div><p class="stat-label">Total Questions Asked</p><h3 class="stat-value" id="kpi-queries">—</h3></div>
+        <div class="card stat-card anim-fade-up"><div class="flex justify-between items-center" style="margin-bottom:1rem;"><div class="stat-icon"><span class="material-symbols-outlined">folder</span></div><span class="stat-badge positive" id="badge-docs">—</span></div><p class="stat-label">Documents Uploaded</p><h3 class="stat-value" id="kpi-docs">—</h3></div>
+        <div class="card stat-card anim-fade-up"><div class="flex justify-between items-center" style="margin-bottom:1rem;"><div class="stat-icon"><span class="material-symbols-outlined">speed</span></div><span class="stat-badge positive" id="badge-speed">—</span></div><p class="stat-label">Avg Response Time</p><h3 class="stat-value" id="kpi-speed">—</h3></div>
+        <div class="card stat-card anim-fade-up"><div class="flex justify-between items-center" style="margin-bottom:1rem;"><div class="stat-icon"><span class="material-symbols-outlined">file_download</span></div><span class="stat-badge positive" id="badge-exports">—</span></div><p class="stat-label">Total Exports</p><h3 class="stat-value" id="kpi-exports">—</h3></div>
+      </div>
+      <!-- Charts Row -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;">
+        <div class="card-static anim-fade-up delay-3" style="padding:1.5rem;">
+          <div class="flex justify-between items-center" style="margin-bottom:1.5rem;">
+            <div><h3 style="font-weight:700;color:var(--primary);">Query Volume</h3><p style="font-size:0.75rem;color:#64748b;">Last 30 days</p></div>
+            <div class="flex gap-2"><span class="tag">Daily</span><span class="tag" style="opacity:0.5;">Weekly</span><span class="tag" style="opacity:0.5;">Monthly</span></div>
+          </div>
+          <div class="chart-area" id="query-chart"></div>
+        </div>
+        <div class="card-static anim-fade-up delay-4" style="padding:1.5rem;display:flex;flex-direction:column;align-items:center;">
+          <h3 style="font-weight:700;color:var(--primary);align-self:flex-start;margin-bottom:1.5rem;">Accuracy Score</h3>
+          <div class="metric-ring" style="margin:1rem 0;">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="54"/><circle class="ring-fill" cx="60" cy="60" r="54" id="accuracy-ring" style="stroke-dashoffset:339.292"/></svg>
+            <div style="text-align:center;"><span id="accuracy-value" style="font-size:2rem;font-weight:800;color:var(--primary);">—</span><p style="font-size:0.6875rem;color:#64748b;">Precision</p></div>
+          </div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:0.75rem;margin-top:1rem;">
+            <div class="flex justify-between"><span style="font-size:0.75rem;color:#64748b;">Relevance</span><span style="font-size:0.75rem;font-weight:700;color:var(--primary);">96.1%</span></div>
+            <div class="flex justify-between"><span style="font-size:0.75rem;color:#64748b;">Completeness</span><span style="font-size:0.75rem;font-weight:700;color:var(--primary);">91.8%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Activity Heatmap -->
+      <div class="card-static anim-fade-up delay-5" style="padding:1.5rem;">
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:1rem;">Activity Heatmap</h3>
+        <p style="font-size:0.75rem;color:#64748b;margin-bottom:1rem;">Document interactions over the last 4 weeks</p>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="flex justify-between" style="margin-top:0.75rem;"><span style="font-size:0.625rem;color:#94a3b8;">Less</span><div class="flex gap-1"><div style="width:12px;height:12px;border-radius:2px;background:rgba(var(--accent-rgb),0.15)"></div><div style="width:12px;height:12px;border-radius:2px;background:rgba(var(--accent-rgb),0.35)"></div><div style="width:12px;height:12px;border-radius:2px;background:rgba(var(--accent-rgb),0.55)"></div><div style="width:12px;height:12px;border-radius:2px;background:var(--primary)"></div></div><span style="font-size:0.625rem;color:#94a3b8;">More</span></div>
+      </div>
+    </div>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  function renderBarChart(vals) {
+    const chart = document.getElementById('query-chart');
+    chart.innerHTML = '';
+    const max = Math.max(...vals, 1);
+    vals.forEach((v, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.background = `rgba(var(--primary-rgb), ${0.3 + (v/max)*0.7})`;
+      bar.dataset.height = (v/max*100)+'%';
+      bar.style.height = '0';
+      bar.title = v + ' queries';
+      chart.appendChild(bar);
+      setTimeout(() => bar.style.height = bar.dataset.height, 100 + i*30);
+    });
+  }
+
+  function renderHeatmap() {
+    const heatmap = document.getElementById('heatmap');
+    heatmap.innerHTML = '';
+    for (let i = 0; i < 28; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'heat-cell';
+      const intensity = Math.random();
+      if (intensity < 0.2)       cell.style.background = 'rgba(var(--accent-rgb),0.1)';
+      else if (intensity < 0.5)  cell.style.background = 'rgba(var(--accent-rgb),0.3)';
+      else if (intensity < 0.75) cell.style.background = 'rgba(var(--accent-rgb),0.55)';
+      else                       cell.style.background = 'var(--primary)';
+      cell.style.animationDelay = (i*0.02)+'s';
+      cell.classList.add('anim-scale-in');
+      heatmap.appendChild(cell);
+    }
+  }
+
+  function updateKPIs(a) {
+    const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+    set('kpi-queries',  a.total_queries.toLocaleString());
+    set('kpi-docs',     a.total_documents.toLocaleString());
+    set('kpi-exports',  a.total_exports.toLocaleString());
+    set('kpi-speed',    a.avg_response_time > 0 ? (a.avg_response_time/1000).toFixed(2)+'s' : '—');
+    set('badge-queries', a.total_queries > 0 ? '+'+a.total_queries : '0');
+    set('badge-docs',    a.total_documents > 0 ? a.total_documents+' total' : '0');
+    set('badge-exports', a.total_exports > 0 ? a.total_exports+' total' : '0');
+    set('badge-speed',   a.avg_response_time > 0 ? 'avg' : '—');
+    set('accuracy-value', a.accuracy_score + '%');
+
+    // Accuracy ring
+    const ring = document.getElementById('accuracy-ring');
+    if (ring) setTimeout(() => ring.style.strokeDashoffset = 339.292*(1-a.accuracy_score/100), 500);
+  }
+
+  async function loadAnalytics() {
+    try {
+      const a = await API.get('/analytics/');
+      updateKPIs(a);
+      renderBarChart(a.weekly_queries);
+      renderHeatmap();
+    } catch (e) { showNotification('Failed to load analytics', 'error'); }
+  }
+
+  function setupRealtime() {
+    // Refresh analytics whenever a query or document changes
+    RealtimeManager.onBroadcast('queries',   'INSERT', () => loadAnalytics());
+    RealtimeManager.onBroadcast('documents', 'INSERT', () => loadAnalytics());
+    RealtimeManager.onBroadcast('exports',   'INSERT', () => loadAnalytics());
+    RealtimeManager.onTable('queries',   () => loadAnalytics());
+    RealtimeManager.onTable('documents', () => loadAnalytics());
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAnalytics();
+    setupRealtime();
+  });
+</script>
+</body>
+</html>

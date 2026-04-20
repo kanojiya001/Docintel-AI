@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Document body -->
+  <path d="M18 14 C18 10 21 8 25 8 L58 8 L58 8 L72 22 L72 88 C72 92 69 94 65 94 L25 94 C21 94 18 92 18 88 Z"
+        stroke="url(#g1)" stroke-width="3.5" stroke-linejoin="round" fill="white"/>
+
+  <!-- Folded corner -->
+  <path d="M58 8 L58 22 L72 22" stroke="url(#g1)" stroke-width="3.5" stroke-linejoin="round" fill="none"/>
+
+  <!-- Document lines -->
+  <line x1="28" y1="42" x2="55" y2="42" stroke="#c7d2fe" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="28" y1="51" x2="55" y2="51" stroke="#c7d2fe" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="28" y1="60" x2="50" y2="60" stroke="#c7d2fe" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="28" y1="69" x2="52" y2="69" stroke="#c7d2fe" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Brain overlapping top-right of document -->
+  <!-- Left hemisphere lobe -->
+  <path d="M52 28
+           C52 22 57 18 63 19
+           C60 16 67 14 71 18
+           C75 14 82 16 83 22
+           C88 22 91 27 89 32
+           C92 35 91 41 87 43
+           C88 48 85 52 80 53
+           C78 57 73 59 68 57
+           C64 60 58 58 56 54
+           C51 53 49 48 51 43
+           C47 40 47 33 52 28 Z"
+        stroke="url(#g1)" stroke-width="3" stroke-linejoin="round" fill="white"/>
+
+  <!-- Brain center crease -->
+  <path d="M68 19 C66 26 66 34 68 40 C69 46 68 52 68 57"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Brain left gyri -->
+  <path d="M52 28 C55 25 60 26 61 30 C62 34 58 36 56 33"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M51 38 C54 35 59 36 60 40 C61 44 57 46 54 43"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Brain right gyri -->
+  <path d="M75 18 C77 22 76 27 72 28 C70 29 69 27 71 25"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M83 28 C85 32 84 37 80 38 C78 39 76 37 78 34"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M82 42 C80 46 76 48 73 46 C71 44 72 41 75 41"
+        stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Brain stem -->
+  <path d="M62 57 C61 62 63 66 65 68" stroke="url(#g1)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocIntel AI — Document Comparison</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body{display:flex;min-height:100vh;margin:0}
+    .compare-panes{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .compare-card{border-radius:var(--radius-xl);overflow:hidden}
+    .compare-header{padding:1rem 1.5rem;border-bottom:1px solid rgba(var(--primary-rgb),0.05);display:flex;align-items:center;justify-content:space-between}
+    .compare-body{padding:1.5rem;font-size:0.875rem;line-height:1.8;color:#334155}
+    .highlight-add{background:rgba(34,197,94,0.12);border-left:3px solid #22c55e;padding:0.25rem 0.5rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0;display:block;margin:0.5rem 0}
+    .highlight-remove{background:rgba(239,68,68,0.08);border-left:3px solid #ef4444;padding:0.25rem 0.5rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0;display:block;margin:0.5rem 0;text-decoration:line-through;opacity:0.7}
+    .diff-stat{display:flex;gap:1rem;padding:0.75rem 1rem;background:rgba(var(--primary-rgb),0.02);border-radius:var(--radius-md)}
+    .diff-badge{font-size:0.6875rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:var(--radius-sm)}
+    .ai-insight{background:rgba(var(--accent-rgb),0.12);border:1px solid rgba(var(--accent-rgb),0.25);border-radius:var(--radius-xl);padding:1.5rem}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-icon" style="background:none;padding:0;"><img src="../images/logo.svg" alt="DocIntel AI" style="width:2.25rem;height:2.25rem;"/></div><div><h1>DocIntel AI</h1><p>Enterprise Grade</p></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a href="documents.html"><span class="material-symbols-outlined">description</span><span>My Documents</span></a>
+      <a href="chat.html"><span class="material-symbols-outlined">chat_bubble</span><span>AI Chat</span></a>
+      <a href="summary.html"><span class="material-symbols-outlined">summarize</span><span>Summaries</span></a>
+      <a href="compare.html" class="active"><span class="material-symbols-outlined">compare</span><span>Comparisons</span></a>
+      <a href="questions.html"><span class="material-symbols-outlined">quiz</span><span>Questions</span></a>
+      <a href="analytics.html"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+      <a href="export.html"><span class="material-symbols-outlined">download</span><span>Exports</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="settings.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600;color:rgba(var(--primary-rgb),0.6);"><span class="material-symbols-outlined">settings</span><span>Settings</span></a></div>
+  </aside>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="breadcrumb"><span>Main</span><span class="material-symbols-outlined" style="font-size:0.875rem;">chevron_right</span><span class="active">Document Comparison</span></div>
+      <div class="flex items-center gap-3"><button class="btn btn-primary" style="font-size:0.8125rem;"><span class="material-symbols-outlined" style="font-size:1rem;">add</span>New Comparison</button><div class="user-info"><div class="user-avatar" id="user-avatar">—</div></div></div>
+    </header>
+    <div style="padding:2rem;display:flex;flex-direction:column;gap:2rem;" class="page-enter">
+      <div class="anim-fade-up"><h2 style="font-size:1.875rem;font-weight:800;color:var(--primary);">Document Comparison</h2><p style="color:#64748b;margin-top:0.25rem;">Compare two documents side-by-side with AI-powered analysis.</p></div>
+      <!-- Select Documents -->
+      <div class="card-static anim-fade-up delay-1" style="padding:1.5rem;">
+        <h3 style="font-weight:700;color:var(--primary);margin-bottom:1rem;">Select Documents to Compare</h3>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;">
+          <select id="doc-a" style="width:100%;padding:0.75rem;border:1px solid var(--neutral-soft);border-radius:var(--radius-md);font-family:var(--font);font-size:0.875rem;background:var(--bg-light);">
+            <option disabled selected>Loading…</option>
+          </select>
+          <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--accent);"><span class="material-symbols-outlined">compare_arrows</span></div>
+          <select id="doc-b" style="width:100%;padding:0.75rem;border:1px solid var(--neutral-soft);border-radius:var(--radius-md);font-family:var(--font);font-size:0.875rem;background:var(--bg-light);">
+            <option disabled selected>Loading…</option>
+          </select>
+        </div>
+        <div style="margin-top:1rem;"><button class="btn btn-primary btn-ripple" onclick="runComparison()"><span class="material-symbols-outlined" style="font-size:1rem;">play_arrow</span>Run Comparison</button></div>
+      </div>
+      <!-- Diff Stats -->
+      <div class="flex gap-4 anim-fade-up delay-2">
+        <div class="diff-stat flex items-center gap-2"><span class="diff-badge" style="background:#dcfce7;color:#15803d;">+24</span><span style="font-size:0.8125rem;font-weight:600;">Additions</span></div>
+        <div class="diff-stat flex items-center gap-2"><span class="diff-badge" style="background:#fee2e2;color:#b91c1c;">-12</span><span style="font-size:0.8125rem;font-weight:600;">Removals</span></div>
+        <div class="diff-stat flex items-center gap-2"><span class="diff-badge" style="background:#dbeafe;color:#1d4ed8;">~8</span><span style="font-size:0.8125rem;font-weight:600;">Modifications</span></div>
+        <div class="diff-stat flex items-center gap-2"><span style="font-size:0.8125rem;font-weight:600;color:var(--primary);">87% Similarity</span></div>
+      </div>
+      <!-- Comparison Panes -->
+      <div class="compare-panes">
+        <div class="card-static compare-card anim-fade-left">
+          <div class="compare-header"><div class="flex items-center gap-2"><span class="material-symbols-outlined" style="color:#ef4444;">picture_as_pdf</span><span id="doc-a-name" style="font-weight:700;font-size:0.875rem;">Document A</span></div><span class="tag">Document A</span></div>
+          <div class="compare-body" id="compare-body-a">
+            <p style="color:#94a3b8;text-align:center;padding:2rem;">Select documents and run comparison.</p>
+          </div>
+        </div>
+        <div class="card-static compare-card anim-fade-right">
+          <div class="compare-header"><div class="flex items-center gap-2"><span class="material-symbols-outlined" style="color:#3b82f6;">description</span><span id="doc-b-name" style="font-weight:700;font-size:0.875rem;">Document B</span></div><span class="tag">Document B</span></div>
+          <div class="compare-body" id="compare-body-b">
+            <p style="color:#94a3b8;text-align:center;padding:2rem;">Select documents and run comparison.</p>
+          </div>
+        </div>
+      </div>
+      <!-- AI Insight -->
+      <div class="ai-insight anim-fade-up delay-4">
+        <div class="flex items-center gap-2" style="margin-bottom:0.75rem;"><span class="material-symbols-outlined" style="color:var(--primary);">auto_awesome</span><span style="font-weight:700;color:var(--primary);">AI Analysis Summary</span></div>
+        <p style="font-size:0.875rem;line-height:1.7;color:#334155;">The updated document shows a <strong>6% increase in SaaS revenue share</strong> (from 58% to 64%) and includes new data about <strong>EMEA market outperformance</strong> (+11.4% vs projections). The core financial structure and operational cost savings remain unchanged between versions.</p>
+      </div>
+    </div>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/app.js"></script>
+<script>
+  requireAuth();
+
+  async function loadDocs() {
+    try {
+      const res = await API.get('/documents/');
+      const ready = res.documents.filter(d => d.status === 'ready');
+      const opts = ready.length
+        ? ready.map(d => `<option value="${d.id}">${d.file_name}</option>`).join('')
+        : '<option disabled>No ready documents</option>';
+      document.getElementById('doc-a').innerHTML = opts;
+      document.getElementById('doc-b').innerHTML = opts;
+      // Default second select to second doc if available
+      if (ready.length > 1) document.getElementById('doc-b').value = ready[1].id;
+    } catch (_) {}
+  }
+
+  async function runComparison() {
+    const selA = document.getElementById('doc-a');
+    const selB = document.getElementById('doc-b');
+    const docA = selA?.value;
+    const docB = selB?.value;
+    if (!docA || !docB || docA === docB) {
+      showNotification('Select two different documents', 'error'); return;
+    }
+    showNotification('Running AI comparison analysis…', 'info');
+    try {
+      const res = await API.post('/compare/', { document_a_id: docA, document_b_id: docB });
+
+      // Update pane headers with real doc names
+      const nameA = selA.options[selA.selectedIndex]?.text || 'Document A';
+      const nameB = selB.options[selB.selectedIndex]?.text || 'Document B';
+      const elA = document.getElementById('doc-a-name');
+      const elB = document.getElementById('doc-b-name');
+      if (elA) elA.textContent = nameA;
+      if (elB) elB.textContent = nameB;
+
+      // Update diff stats
+      const badges = document.querySelectorAll('.diff-badge');
+      if (badges[0]) badges[0].textContent = '+' + res.additions;
+      if (badges[1]) badges[1].textContent = '-' + res.removals;
+      if (badges[2]) badges[2].textContent = '~' + res.modifications;
+      const simEl = document.querySelector('.diff-stat:last-child span:last-child');
+      if (simEl) simEl.textContent = Math.round(res.similarity_score * 100) + '% Similarity';
+
+      // Update AI insight
+      const insight = document.querySelector('.ai-insight p');
+      if (insight) insight.innerHTML = res.analysis.replace(/\n/g, '<br>');
+
+      // Show analysis in panes
+      const bodyA = document.getElementById('compare-body-a');
+      const bodyB = document.getElementById('compare-body-b');
+      if (bodyA) bodyA.innerHTML = `<p style="font-size:0.875rem;line-height:1.7;color:#334155;">${nameA} — see AI Analysis below for detailed comparison.</p>`;
+      if (bodyB) bodyB.innerHTML = `<p style="font-size:0.875rem;line-height:1.7;color:#334155;">${nameB} — see AI Analysis below for detailed comparison.</p>`;
+
+      showNotification('Comparison complete!', 'success');
+    } catch (e) { showNotification(e.message || 'Comparison failed', 'error'); }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadDocs);
+</script>
+</body>
+</html>
